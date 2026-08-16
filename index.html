@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ca" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gravel Catalunya | Comunitat & Bikepacking</title>
+  <meta name="description" content="Gravel Catalunya és la comunitat més gran del Gravel català. Sortides socials gratuïtes, bikepackings i esdeveniments mentre coneixem el territori.">
+  
+  <!-- Enllaç Canònic i SEO -->
+  <link rel="canonical" href="https://www.gravelcatalunya.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.gravelcatalunya.com/" />
+  <meta property="og:title" content="Gravel Catalunya | Comunitat & Bikepacking" />
+  <meta property="og:description" content="Gravel Catalunya és la comunitat més gran del Gravel català. Sortides socials gratuïtes, bikepackings i esdeveniments." />
+  <meta property="og:image" content="https://www.gravelcatalunya.com/logo.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Gravel Catalunya | Comunitat & Bikepacking" />
+  <meta name="twitter:description" content="Gravel Catalunya és la comunitat més gran del Gravel català." />
+  <meta name="twitter:image" content="https://www.gravelcatalunya.com/logo.png" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tipografies d'alta potència visual -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;0,900;1,900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Montserrat"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              turquoise: '#2cbdb0',
+              darkturquoise: '#21968b',
+              black: '#0a0e17',
+              slate: '#1e293b',
+              light: '#f8fafc',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Fons general fixat */
+    body {
+      background-image: linear-gradient(rgba(248, 250, 252, 0.92), rgba(248, 250, 252, 0.92)), url('topo.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    /* Textura topogràfica per al header flotant */
+    .header-topo-bg {
+      background-image: linear-gradient(rgba(10, 14, 23, 0.88), rgba(10, 14, 23, 0.94)), url('topo.jpg');
+      background-size: 500px auto;
+      background-position: center;
+    }
+
+    .bg-topo-smooth-dark {
+      background-image: linear-gradient(rgba(10, 14, 23, 0.94), rgba(10, 14, 23, 0.94)), url('topo.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+  </style>
+
+  <!-- SEO Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SportsClub",
+    "name": "Gravel Catalunya",
+    "url": "https://www.gravelcatalunya.com",
+    "description": "Gravel Catalunya és la comunitat més gran del Gravel català."
+  }
+  </script>
+</head>
+<body class="text-slate-900 font-sans antialiased selection:bg-brand-turquoise selection:text-brand-black">
+
+  <!-- HEADER FLOTANT D'ALT IMPACTE -->
+  <div class="sticky top-0 z-50 px-4 sm:px-6 pt-4 pb-2">
+    <header class="max-w-7xl mx-auto header-topo-bg backdrop-blur-xl border border-brand-turquoise/40 text-white rounded-2xl sm:rounded-3xl shadow-2xl shadow-black/40 px-5 sm:px-8 h-20 flex justify-between items-center transition-all duration-300">
+      
+      <!-- LOGO -->
+      <a href="#" class="flex items-center gap-3 group py-1">
+        <div class="relative">
+          <div class="absolute -inset-1 bg-brand-turquoise/30 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <img src="logo.png" alt="Gravel Catalunya Logo" class="relative h-12 sm:h-14 w-auto object-contain transition-transform group-hover:scale-105">
+        </div>
+      </a>
+
+      <!-- MENÚ -->
+      <nav class="hidden md:flex items-center gap-8 text-xs font-extrabold uppercase tracking-widest text-slate-300">
+        <a href="#quisom" class="hover:text-brand-turquoise transition-colors">Qui som?</a>
+        <a href="#comunitat" class="hover:text-brand-turquoise transition-colors flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-brand-turquoise animate-pulse"></span>
+          Comunitat
+        </a>
+        <a href="#app" class="hover:text-brand-turquoise transition-colors">App Mòbil</a>
+        <a href="#collaboradors" class="hover:text-brand-turquoise transition-colors">Col·labora</a>
+      </nav>
+
+      <!-- BOTÓ DESCARREGA L'APP -->
+      <div class="flex items-center gap-3">
+        <a href="#app" class="relative group overflow-hidden rounded-xl p-px font-display font-black text-xs uppercase tracking-wider">
+          <span class="absolute inset-0 bg-gradient-to-r from-brand-turquoise via-teal-300 to-brand-turquoise animate-pulse"></span>
+          <span class="relative block bg-brand-turquoise group-hover:bg-brand-darkturquoise text-brand-black group-hover:text-white px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-brand-turquoise/30">
+            Descarrega l'APP 📱
+          </span>
+        </a>
+      </div>
+
+    </header>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="relative pt-8 pb-20 px-6 overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Titular Tipogràfic -->
+      <div class="text-center max-w-4xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-2 bg-brand-black text-white px-4 py-1.5 rounded-full mb-4 shadow-xl border border-brand-turquoise/40">
+          <span class="w-2.5 h-2.5 rounded-full bg-brand-turquoise animate-ping"></span>
+          <span class="text-[11px] font-extrabold uppercase tracking-widest">Gravel Catalunya és la comunitat més gran del Gravel català</span>
+        </div>
+
+        <h1 class="font-display font-black text-5xl sm:text-7xl text-brand-black tracking-tighter leading-[0.9] uppercase italic mb-4">
+          PUR GRAVEL. <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-turquoise via-teal-600 to-brand-darkturquoise">PURA AVENTURA.</span>
+        </h1>
+
+        <p class="text-slate-800 font-bold text-base sm:text-xl max-w-2xl mx-auto">
+          Sortides socials gratuïtes, bikepackings i esdeveniments mentre coneixem el territori.
+        </p>
+      </div>
+
+      <!-- LES 3 CAIXES ESTÈTIQUES -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto pt-4">
+        
+        <!-- CAIXA 1 -->
+        <div class="relative group h-96 rounded-3xl overflow-hidden shadow-2xl border-2 border-white/80 transform hover:-translate-y-1 transition-all">
+          <img 
+            src="caixa1.jpg" 
+            alt="Bikepacking Aventures" 
+            class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+          
+          <div class="relative z-10 p-7 h-full flex flex-col justify-between text-white">
+            <span class="bg-brand-black/80 text-brand-turquoise font-display font-black text-[10px] uppercase tracking-widest px-3 py-1 rounded-md border border-brand-turquoise/40 self-start backdrop-blur">
+              Bikepackings
+            </span>
+            <div>
+              <h3 class="font-display font-black text-2xl uppercase tracking-tight text-white mb-2">
+                Aventures Sense Pressa
+              </h3>
+              <p class="text-slate-300 text-xs font-medium leading-relaxed">
+                Explorar territori en format aventura
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAIXA 2 -->
+        <div class="relative group h-96 rounded-3xl overflow-hidden shadow-2xl border-2 border-white/80 transform hover:-translate-y-1 transition-all">
+          <img 
+            src="caixa2.jpg" 
+            alt="Sortides Socials Gratuïtes" 
+            class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/50 to-transparent"></div>
+          
+          <div class="relative z-10 p-7 h-full flex flex-col justify-between text-white">
+            <span class="bg-brand-black/80 text-brand-turquoise font-display font-black text-[10px] uppercase tracking-widest px-3 py-1 rounded-md border border-brand-turquoise/40 self-start backdrop-blur">
+              100% Gratuït
+            </span>
+            <div>
+              <h3 class="font-display font-black text-2xl uppercase tracking-tight text-white mb-2">
+                Sortides Socials
+              </h3>
+              <p class="text-slate-300 text-xs font-medium leading-relaxed mb-3">
+                Uneix-te, sols necessites ganes de pedalar en grup i descobrir nous camins.
+              </p>
+              <div class="flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-extrabold uppercase tracking-wider text-brand-turquoise border-t border-white/20 pt-3">
+                <span>✓ Totes les comarques</span>
+                <span>✓ Tots els nivells</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAIXA 3 -->
+        <div class="relative group h-96 rounded-3xl overflow-hidden shadow-2xl border-2 border-white/80 transform hover:-translate-y-1 transition-all">
+          <img 
+            src="caixa3.jpg" 
+            alt="Fer Comunitat Gravel" 
+            class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent"></div>
+          
+          <div class="relative z-10 p-7 h-full flex flex-col justify-between text-white">
+            <span class="bg-brand-black/80 text-brand-turquoise font-display font-black text-[10px] uppercase tracking-widest px-3 py-1 rounded-md border border-brand-turquoise/40 self-start backdrop-blur">
+              Comunitat
+            </span>
+            <div>
+              <h3 class="font-display font-black text-2xl uppercase tracking-tight text-white mb-2">
+                Més de 8.000 ciclistes
+              </h3>
+              <p class="text-slate-300 text-xs font-medium leading-relaxed">
+                Connecta amb la xarxa més gran d'apassionats/des del gravel a Catalunya.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECCIÓ QUI SOM? -->
+  <section id="quisom" class="py-16 px-6 max-w-6xl mx-auto">
+    <div class="bg-white/95 backdrop-blur-md rounded-3xl p-8 sm:p-12 shadow-xl border-2 border-slate-200/80 grid lg:grid-cols-12 gap-10 items-center">
+      <div class="lg:col-span-6 space-y-5">
+        <span class="text-brand-darkturquoise font-extrabold text-xs uppercase tracking-widest bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200">
+          Qui som?
+        </span>
+        <h2 class="font-display font-black text-3xl sm:text-4xl text-brand-black leading-tight">
+          CONNECTANT PERSONES MENTRE CONEIXEM TERRITORI
+        </h2>
+        <p class="text-slate-700 font-medium leading-relaxed">
+          El gravel ens permet aventurar-nos fora de les rutes convencionals i descobrir indrets nous i sorprenents. Amb les nostres sortides aprofitem la versatilitat d’aquestes bicicletes per gaudir d’una sensació de llibertat i aventura, amb paisatges naturals impressionants i vistes panoràmiques dels millors indrets del nostre territori.
+        </p>
+      </div>
+
+      <!-- FOTO ÚNICA I GRAN -->
+      <div class="lg:col-span-6">
+        <div class="relative group rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+          <img 
+            src="connect.jpeg" 
+            alt="Qui som - Gravel Catalunya" 
+            class="w-full h-[380px] sm:h-[450px] object-cover group-hover:scale-105 transition-transform duration-700" 
+            loading="lazy"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-black/60 via-transparent to-transparent"></div>
+          <span class="absolute bottom-4 left-4 bg-brand-turquoise/90 backdrop-blur text-brand-black font-display font-black text-xs px-3 py-1 rounded">
+            Rutes per tot el territori
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓ COMUNITAT -->
+  <section id="comunitat" class="bg-topo-smooth-dark text-white py-20 px-6 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto relative z-10">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="text-brand-turquoise font-extrabold text-xs uppercase tracking-widest bg-brand-turquoise/10 border border-brand-turquoise/30 px-4 py-1.5 rounded-full inline-block mb-3">
+          Canals Oficials
+        </span>
+        <h2 class="font-display font-black text-3xl sm:text-5xl uppercase tracking-tight">FER COMUNITAT ÉS EL PRIMER</h2>
+        <p class="text-slate-400 font-bold text-sm mt-2">Segueix-nos a la teva plataforma preferida.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- STRAVA -->
+        <a href="https://www.strava.com/clubs/640698" target="_blank" class="group bg-slate-900/90 hover:bg-slate-900 border-2 border-slate-800 hover:border-[#FC4C02] rounded-3xl p-7 transition-all duration-300 shadow-2xl transform hover:-translate-y-2">
+          <div class="w-14 h-14 bg-[#FC4C02]/10 text-[#FC4C02] rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7.92 15.588h4.173"/></svg>
+          </div>
+          <h3 class="font-display font-black text-xl text-white group-hover:text-[#FC4C02]">Strava</h3>
+          <p class="text-slate-400 text-xs font-medium mt-2 mb-5">Comparteix rutes i descobreix per on pedalem.</p>
+          <span class="text-[#FC4C02] font-extrabold text-xs uppercase tracking-widest">Unir-se al Club →</span>
+        </a>
+
+        <!-- KOMOOT -->
+        <a href="https://www.komoot.com/es-es/user/2075181927542" target="_blank" class="group bg-slate-900/90 hover:bg-slate-900 border-2 border-slate-800 hover:border-[#7AA800] rounded-3xl p-7 transition-all duration-300 shadow-2xl transform hover:-translate-y-2">
+          <div class="w-14 h-14 bg-[#7AA800]/10 text-[#7AA800] rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 4.8a7.2 7.2 0 1 1 0 14.4 7.2 7.2 0 0 1 0-14.4zm0 2.4a4.8 4.8 0 1 0 0 9.6 4.8 4.8 0 0 0 0-9.6z"/></svg>
+          </div>
+          <h3 class="font-display font-black text-xl text-white group-hover:text-[#7AA800]">Komoot</h3>
+          <p class="text-slate-400 text-xs font-medium mt-2 mb-5">Tracks GPX de bikepacking i rutes verificades per tot Catalunya.</p>
+          <span class="text-[#7AA800] font-extrabold text-xs uppercase tracking-widest">Segueix-nos →</span>
+        </a>
+
+        <!-- TELEGRAM -->
+        <a href="https://t.me/gravelcatalunya" target="_blank" class="group bg-slate-900/90 hover:bg-slate-900 border-2 border-slate-800 hover:border-[#26A5E4] rounded-3xl p-7 transition-all duration-300 shadow-2xl transform hover:-translate-y-2">
+          <div class="w-14 h-14 bg-[#26A5E4]/10 text-[#26A5E4] rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          </div>
+          <h3 class="font-display font-black text-xl text-white group-hover:text-[#26A5E4]">Telegram</h3>
+          <p class="text-slate-400 text-xs font-medium mt-2 mb-5">Xateja en directe amb la resta de membres de la comunitat.</p>
+          <span class="text-[#26A5E4] font-extrabold text-xs uppercase tracking-widest">Entrar al Grup →</span>
+        </a>
+
+        <!-- INSTAGRAM -->
+        <a href="https://www.instagram.com/gravelcatalunya" target="_blank" class="group bg-slate-900/90 hover:bg-slate-900 border-2 border-slate-800 hover:border-[#E4405F] rounded-3xl p-7 transition-all duration-300 shadow-2xl transform hover:-translate-y-2">
+          <div class="w-14 h-14 bg-[#E4405F]/10 text-[#E4405F] rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <h3 class="font-display font-black text-xl text-white group-hover:text-[#E4405F]">Instagram</h3>
+          <p class="text-slate-400 text-xs font-medium mt-2 mb-5">Fotos i reels per conèixer el territori.</p>
+          <span class="text-[#E4405F] font-extrabold text-xs uppercase tracking-widest">Segueix-nos →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- APARTAT EXCLUSIU PER A L'APP MÒBIL -->
+  <section id="app" class="py-20 px-6 bg-brand-turquoise text-brand-black relative overflow-hidden">
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
+      
+      <div class="lg:col-span-7 space-y-5">
+        <span class="bg-brand-black text-white text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider">
+          📱 Aplicació Mòbil Oficial
+        </span>
+        <h2 class="font-display font-black text-3xl sm:text-5xl uppercase tracking-tight leading-none">
+          L'APP DE LES SORTIDES SOCIALS
+        </h2>
+        <p class="text-slate-900 font-bold text-base leading-relaxed">
+          Amb l'aplicació oficial de Gravel Catalunya podràs inscriure't a totes les nostres trobades setmanals de manera 100% gratuïta.
+        </p>
+        
+        <div class="space-y-2 pt-1">
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-brand-black text-brand-turquoise flex items-center justify-center text-xs font-black">✓</span>
+            <p class="font-extrabold text-brand-black text-sm">Inscripció directa a sortides per tot el territori.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full bg-brand-black text-brand-turquoise flex items-center justify-center text-xs font-black">✓</span>
+            <p class="font-extrabold text-brand-black text-sm">Notificacions de noves trobades i esdeveniments.</p>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <a href="https://gravelcatalunya.glide.page/" class="inline-block bg-brand-black hover:bg-slate-800 text-white font-display font-black text-xs uppercase tracking-wider px-7 py-3.5 rounded-xl shadow-xl transition">
+            Descarrega l'APP 📱
+          </a>
+        </div>
+      </div>
+
+      <!-- Mockup d'App -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="w-full max-w-xs bg-brand-black text-white border-8 border-slate-900 p-5 rounded-[40px] shadow-2xl">
+          <div class="w-20 h-3.5 bg-slate-800 rounded-full mx-auto mb-5"></div>
+          
+          <div class="space-y-3">
+            <div class="bg-slate-900 p-4 rounded-2xl border border-brand-turquoise/40">
+              <span class="text-[10px] font-black text-brand-turquoise uppercase">Aquest Dissabte</span>
+              <h4 class="font-display font-black text-white text-sm mt-0.5">Gravel Osona & Ter</h4>
+              <p class="text-xs text-slate-400 mt-0.5">Vic • 52 km • Sortida Social</p>
+            </div>
+
+            <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800">
+              <span class="text-[10px] font-black text-slate-400 uppercase">Propera Trobada</span>
+              <h4 class="font-display font-black text-white text-sm mt-0.5">Pirinexus</h4>
+              <p class="text-xs text-slate-400 mt-0.5">Girona • 345 km</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECCIÓ PATROCINI & MARQUES -->
+  <section id="collaboradors" class="py-20 px-6 bg-white/95 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto text-center space-y-6">
+      <span class="text-brand-darkturquoise font-extrabold text-xs uppercase tracking-widest bg-teal-50 px-4 py-1.5 rounded-full border border-teal-200 inline-block">
+        Col·laborem plegats
+      </span>
+      <h2 class="font-display font-black text-3xl sm:text-5xl uppercase text-brand-black">VISIBILITZA EL TEU PROJECTE</h2>
+      <p class="text-slate-700 font-medium text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+        Ets una marca de ciclisme, una empresa de material o l'organitzador/a d'un esdeveniment? Unim forces per donar visibilitat als teus projectes i connectar amb la comunitat de gravel més activa de Catalunya.
+      </p>
+
+      <div class="pt-4 flex flex-wrap justify-center gap-4">
+        <a href="#contacte" class="inline-flex items-center gap-2 bg-brand-black hover:bg-slate-800 text-white font-display font-black text-xs uppercase tracking-wider px-8 py-4 rounded-2xl shadow-xl transition transform hover:-translate-y-0.5">
+          <svg class="w-4 h-4 fill-current text-brand-turquoise" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Escriu-nos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULARI DE CONTACTE -->
+  <section id="contacte" class="py-20 px-6 bg-slate-100/95 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto">
+      
+      <div class="bg-white rounded-3xl shadow-2xl border-2 border-slate-200 overflow-hidden grid lg:grid-cols-12">
+        
+        <!-- Imatge lateral integrada -->
+        <div class="lg:col-span-5 relative min-h-[300px] lg:min-h-full">
+          <img 
+            src="contacta.jpeg" 
+            alt="Contacta Gravel Catalunya" 
+            class="absolute inset-0 w-full h-full object-cover"
+          >
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/20 to-transparent"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-white">
+            <span class="bg-brand-turquoise text-brand-black font-display font-black text-[10px] uppercase tracking-widest px-2.5 py-1 rounded">
+              Som Comunitat
+            </span>
+            <h3 class="font-display font-black text-2xl uppercase mt-2">Fem ruta plegats?</h3>
+          </div>
+        </div>
+
+        <!-- Formulari + Missatge d'èxit -->
+        <div class="lg:col-span-7 p-8 sm:p-10 space-y-5">
+          <div>
+            <h2 class="font-display font-black text-3xl text-brand-black uppercase">CONTACTA AMB NOSALTRES</h2>
+          </div>
+
+          <!-- Formulari -->
+          <form id="contact-form" class="space-y-4">
+            <!-- WEB3FORMS -->
+            <input type="hidden" name="access_key" value="34c3e4dc-6a31-4fc1-99cf-78ced4e84e0e">
+            
+            <div>
+              <label class="block text-xs font-black text-slate-800 uppercase mb-1">Nom complet *</label>
+              <input type="text" name="name" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none" placeholder="El teu nom">
+            </div>
+
+            <div>
+              <label class="block text-xs font-black text-slate-800 uppercase mb-1">Correu electrònic *</label>
+              <input type="email" name="email" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none" placeholder="nom@exemple.cat">
+            </div>
+
+            <div>
+              <label class="block text-xs font-black text-slate-800 uppercase mb-1">Missatge *</label>
+              <textarea name="message" rows="4" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none" placeholder="En què et podem ajudar?"></textarea>
+            </div>
+
+            <div class="h-captcha" data-captcha="true"></div>
+            
+            <button type="submit" id="submit-btn" class="w-full bg-brand-turquoise hover:bg-brand-darkturquoise text-brand-black hover:text-white font-display font-black text-xs uppercase tracking-wider py-3.5 rounded-xl shadow-lg transition">
+              Envia el missatge →
+            </button>
+          </form>
+
+          <!-- Targeta de "Missatge enviat" (oculta d'inici) -->
+          <div id="form-success" class="hidden p-6 bg-teal-50 border-2 border-brand-turquoise rounded-2xl text-center space-y-2">
+            <div class="w-12 h-12 bg-brand-turquoise text-brand-black rounded-full flex items-center justify-center mx-auto text-xl font-black">
+              ✓
+            </div>
+            <h3 class="font-display font-black text-xl text-slate-900">Missatge enviat!</h3>
+            <p class="text-sm font-medium text-slate-600">Gràcies per contactar amb Gravel Catalunya. Ens posarem en contacte ben aviat.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER AMB ENLLAÇ A TEXTOS LEGALS -->
+  <footer class="bg-brand-black text-slate-500 py-10 px-6 text-center text-xs space-y-3">
+    <div class="flex justify-center mb-2">
+      <img src="logo.png" alt="Gravel Catalunya Logo" class="h-12 w-auto object-contain">
+    </div>
+    <p>Gravel Catalunya &copy; 2026. La comunitat del Gravel a Catalunya.</p>
+    <div class="pt-2">
+      <button onclick="toggleLegalModal()" class="text-slate-400 hover:text-brand-turquoise transition-colors font-bold underline">
+        Textos Legals &amp; Privadesa
+      </button>
+    </div>
+  </footer>
+
+  <!-- ========================================= -->
+  <!-- MODAL / FINESTRA EMERGENT DE TEXTOS LEGALS-->
+  <!-- ========================================= -->
+  <div id="legal-modal" class="fixed inset-0 z-[100] hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white text-slate-800 rounded-3xl max-w-3xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 shadow-2xl relative border-2 border-slate-200">
+      
+      <!-- Botó de tancar -->
+      <button onclick="toggleLegalModal()" class="absolute top-5 right-5 w-9 h-9 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full flex items-center justify-center font-black text-lg transition">
+        ✕
+      </button>
+
+      <!-- Títol modal -->
+      <h2 class="font-display font-black text-2xl text-brand-black uppercase mb-6 pb-3 border-b border-slate-200">
+        Informació Legal &amp; Privadesa
+      </h2>
+
+      <!-- Contingut dels textos legals -->
+      <div class="space-y-6 text-xs leading-relaxed font-medium text-slate-600">
+        
+        <div>
+          <h3 class="font-display font-black text-sm text-brand-black uppercase mb-2">1. Avís Legal</h3>
+          <p>En compliment de l'article 10 de la Llei 34/2002, d'11 de juliol, de Serveis de la Societat de la Informació i Comerç Electrònic (LSSI-CE), s'informa que el lloc web <strong>www.gravelcatalunya.com</strong> és titularitat de la comunitat Gravel Catalunya. El portal té com a finalitat oferir informació sobre les nostres activitats, sortides socials i canalitzar la coordinació entre ciclistes.</p>
+        </div>
+
+        <div>
+          <h3 class="font-display font-black text-sm text-brand-black uppercase mb-2">2. Política de Privadesa i Protecció de Dades (RGPD)</h3>
+          <p>De conformitat amb el Reglament General de Protecció de Dades (UE) 2016/679 i la Llei Orgànica 3/2018 (LOPDGDD), us informem que les dades de contacte facilitades a través del formulari (nom i correu electrònic) seran utilitzades únicament per atendre i respondre les consultes o sol·licituds d'informació formulades.</p>
+          <p class="mt-1">Aquestes dades no seran cedides a tercers en cap cas sense el vostre consentiment previ. Podeu exercir els vostres drets d'accés, rectificació, supressió o oposició enviant un correu a través del formulari de contacte d'aquesta web.</p>
+        </div>
+
+        <div>
+          <h3 class="font-display font-black text-sm text-brand-black uppercase mb-2">3. Política de Cookies</h3>
+          <p>Aquest lloc web utilitza exclusivament cookies tècniques i essencials per al seu correcte funcionament i la millora de l'experiència d'usuari. No s'utilitzen cookies de tercers amb fins de perfilat ni publicitaris sense consentiment explícit.</p>
+        </div>
+
+        <div>
+          <h3 class="font-display font-black text-sm text-brand-black uppercase mb-2">4. Propietat Intel·lectual</h3>
+          <p>Tots els continguts d'aquesta pàgina web (marques, dissenys, textos, logos i fotografies) estan protegits per drets de propietat intel·lectual de Gravel Catalunya o dels seus corresponents autors/es.</p>
+        </div>
+
+      </div>
+
+      <!-- Botó d'acceptar -->
+      <div class="mt-8 pt-4 border-t border-slate-200 text-right">
+        <button onclick="toggleLegalModal()" class="bg-brand-turquoise hover:bg-brand-darkturquoise text-brand-black font-display font-black text-xs uppercase px-6 py-2.5 rounded-xl transition">
+          D'acord / Tancar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRIPT ENVIAMENT FORMULARI SENSE RECARREGAR I MODAL LEGAL -->
+  <script>
+    // Toggle del Modal de Textos Legals
+    function toggleLegalModal() {
+      const modal = document.getElementById('legal-modal');
+      modal.classList.toggle('hidden');
+    }
+
+    // Enviament del formulari Web3Forms
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formSuccess = document.getElementById('form-success');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.innerText = "S'està enviant...";
+
+      const formData = new FormData(form);
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: json
+      })
+      .then(async (response) => {
+        if (response.status == 200) {
+          form.classList.add('hidden');
+          formSuccess.classList.remove('hidden');
+        } else {
+          alert("Hi ha hagut un error en enviar el missatge. Torna-ho a provar.");
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Envia el missatge →";
+        }
+      })
+      .catch(error => {
+        alert("Hi ha hagut un error en enviar el missatge.");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Envia el missatge →";
+      });
+    });
+  </script>
+
+<script src="https://web3forms.com/client/script.js" async defer></script>
+</body>
+</html>
