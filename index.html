@@ -446,7 +446,8 @@
               <textarea name="message" rows="4" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none" placeholder="En què et podem ajudar?"></textarea>
             </div>
 
-            <div class="h-captcha" data-captcha="true"></div>
+            <!-- Widget hCaptcha de Web3Forms -->
+            <div class="h-captcha mb-4" data-captcha="true"></div>
             
             <button type="submit" id="submit-btn" class="w-full bg-brand-turquoise hover:bg-brand-darkturquoise text-brand-black hover:text-white font-display font-black text-xs uppercase tracking-wider py-3.5 rounded-xl shadow-lg transition">
               Envia el missatge →
@@ -494,7 +495,7 @@
 
       <!-- Títol modal -->
       <h2 class="font-display font-black text-2xl text-brand-black uppercase mb-6 pb-3 border-b border-slate-200">
-        Informació legal &amp; Privacitat
+        Informació legal i privacitat
       </h2>
 
       <!-- Contingut dels textos legals -->
@@ -534,20 +535,27 @@
   </div>
 
   <!-- SCRIPT ENVIAMENT FORMULARI SENSE RECARREGAR I MODAL LEGAL -->
+  <!-- SCRIPT PER ENVIAR SENSE RECARREGAR AMB SUPORT PER A HCAPTCHA -->
   <script>
-    // Toggle del Modal de Textos Legals
     function toggleLegalModal() {
       const modal = document.getElementById('legal-modal');
       modal.classList.toggle('hidden');
     }
 
-    // Enviament del formulari Web3Forms
     const form = document.getElementById('contact-form');
     const submitBtn = document.getElementById('submit-btn');
     const formSuccess = document.getElementById('form-success');
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+
+      // Comprova si hCaptcha està marcat
+      const hCaptcha = form.querySelector('textarea[name=h-captcha-response]');
+      if (hCaptcha && !hCaptcha.value) {
+        alert("Si us plau, resol el captcha abans d'enviar.");
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.innerText = "S'està enviant...";
 
@@ -564,23 +572,24 @@
         body: json
       })
       .then(async (response) => {
-        if (response.status == 200) {
+        let jsonRes = await response.json();
+        if (response.status === 200) {
           form.classList.add('hidden');
           formSuccess.classList.remove('hidden');
         } else {
-          alert("Hi ha hagut un error en enviar el missatge. Torna-ho a provar.");
+          // Mostra el missatge d'error exacte de Web3Forms si falla
+          alert(jsonRes.message || "Hi ha hagut un error en enviar el missatge.");
           submitBtn.disabled = false;
           submitBtn.innerText = "Envia el missatge →";
         }
       })
       .catch(error => {
-        alert("Hi ha hagut un error en enviar el missatge.");
+        alert("Hi ha hagut un error de connexió. Torna-ho a provar.");
         submitBtn.disabled = false;
         submitBtn.innerText = "Envia el missatge →";
       });
     });
   </script>
 
-<script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 </html>
