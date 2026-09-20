@@ -50,6 +50,47 @@
     }
   </script>
 
+  <script>
+  const form = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const formSuccess = document.getElementById('form-success');
+
+  // Cloudflare Worker:
+  const WORKER_URL = "https://gravel-contact.gravelcatalunya.workers.dev";
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerText = "S'està enviant...";
+
+    const payload = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      message: document.getElementById('message').value,
+      honeypot: document.getElementById('honeypot').value // Trampa antispam
+    };
+
+    try {
+      const response = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        form.classList.add('hidden');
+        formSuccess.classList.remove('hidden');
+      } else {
+        throw new Error("Error en la resposta del servidor");
+      }
+    } catch (err) {
+      alert("Hi ha hagut un error en enviar el missatge. Si us plau, escriu-nos directament a hola@gravelcatalunya.com");
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Envia el missatge →";
+    }
+  });
+</script>
+
   <style>
     /* Fons general fixat */
     body {
@@ -398,7 +439,7 @@
     </div>
   </section>
 
-  <!-- FORMULARI DE CONTACTE -->
+<!-- FORMULARI DE CONTACTE -->
   <section id="contacte" class="py-20 px-6 bg-slate-100/95 backdrop-blur-md">
     <div class="max-w-5xl mx-auto">
       
@@ -428,28 +469,27 @@
 
           <!-- Formulari -->
           <form id="contact-form" class="space-y-4">
-            <!-- WEB3FORMS -->
-            <input type="hidden" name="access_key" value="34c3e4dc-6a31-4fc1-99cf-78ced4e84e0e">
+            <!-- Camp Honeypot invisible per a bots -->
+            <div class="hidden" style="display: none !important;" aria-hidden="true">
+              <input type="text" name="honeypot" id="honeypot" tabindex="-1" autocomplete="off">
+            </div>
             
             <div>
-              <label class="block text-xs font-black text-slate-800 uppercase mb-1">Nom complet *</label>
-              <input type="text" name="name" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none" placeholder="El teu nom">
+              <label for="name" class="block text-xs font-black text-slate-800 uppercase mb-1">Nom complet *</label>
+              <input type="text" id="name" name="name" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none" placeholder="El teu nom">
             </div>
 
             <div>
-              <label class="block text-xs font-black text-slate-800 uppercase mb-1">Correu electrònic *</label>
-              <input type="email" name="email" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none" placeholder="nom@exemple.cat">
+              <label for="email" class="block text-xs font-black text-slate-800 uppercase mb-1">Correu electrònic *</label>
+              <input type="email" id="email" name="email" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none" placeholder="nom@exemple.cat">
             </div>
 
             <div>
-              <label class="block text-xs font-black text-slate-800 uppercase mb-1">Missatge *</label>
-              <textarea name="message" rows="4" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none" placeholder="En què et podem ajudar?"></textarea>
+              <label for="message" class="block text-xs font-black text-slate-800 uppercase mb-1">Missatge *</label>
+              <textarea id="message" name="message" rows="4" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-800 font-bold focus:bg-white focus:border-brand-turquoise focus:outline-none resize-none" placeholder="En què et podem ajudar?"></textarea>
             </div>
-
-            <!-- Widget hCaptcha de Web3Forms -->
-            <div class="h-captcha mb-4" data-captcha="true"></div>
             
-            <button type="submit" id="submit-btn" class="w-full bg-brand-turquoise hover:bg-brand-darkturquoise text-brand-black hover:text-white font-display font-black text-xs uppercase tracking-wider py-3.5 rounded-xl shadow-lg transition">
+            <button type="submit" id="submit-btn" class="w-full bg-brand-turquoise hover:bg-brand-darkturquoise text-brand-black hover:text-white font-display font-black text-xs uppercase tracking-wider py-3.5 rounded-xl shadow-lg transition cursor-pointer">
               Envia el missatge →
             </button>
           </form>
@@ -468,7 +508,7 @@
 
     </div>
   </section>
-
+  
   <!-- FOOTER AMB ENLLAÇ A TEXTOS LEGALS -->
   <footer class="bg-brand-black text-slate-500 py-10 px-6 text-center text-xs space-y-3">
     <div class="flex justify-center mb-2">
