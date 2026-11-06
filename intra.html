@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intranet - Gravel Catalunya</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f4f5; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1, h2 { color: #2c3e50; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; }
+        input[type="text"], input[type="date"], input[type="url"], input[type="email"], input[type="password"], textarea, select {
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-family: inherit;
+        }
+        button { width: 100%; padding: 12px; background-color: #d35400; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1em; }
+        button:hover { background-color: #e67e22; }
+        .hidden { display: none; }
+        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-small { width: auto; padding: 8px 15px; background-color: #7f8c8d; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- PANTALLA DE LOGIN -->
+    <div id="login-screen">
+        <h1>Gravel Catalunya</h1>
+        <p style="text-align:center;">Introdueix les teves dades d'accés</p>
+        <div class="form-group">
+            <label>Usuari (Correu)</label>
+            <input type="email" id="login-email" placeholder="usuari@gravel.cat" required>
+        </div>
+        <div class="form-group">
+            <label>Codi d'accés</label>
+            <input type="password" id="login-password" placeholder="El teu codi" required>
+        </div>
+        <button onclick="login()">Entrar</button>
+        <p id="login-error" style="color:red; text-align:center; display:none;"></p>
+    </div>
+
+    <!-- PANTALLA PRINCIPAL (CREAR SORTIDA) -->
+    <div id="app-screen" class="hidden">
+        <div class="header-bar">
+            <h2>Crear Nova Sortida</h2>
+            <button class="btn-small" onclick="logout()">Tancar Sessió</button>
+        </div>
+        
+        <form id="sortida-form" onsubmit="crearSortida(event)">
+            <div class="form-group">
+                <label>Títol *</label>
+                <input type="text" id="titol" required>
+            </div>
+            <div class="form-group">
+                <label>Data</label>
+                <input type="date" id="data">
+            </div>
+            <div class="form-group">
+                <label>Descripció *</label>
+                <textarea id="descripcio" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Imatge (Opcional)</label>
+                <input type="file" id="imatge" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label>Organitzador/a *</label>
+                <input type="text" id="organitzador" required>
+            </div>
+            <div class="form-group">
+                <label>Web del track (Komoot, Wikiloc...) *</label>
+                <input type="url" id="web_track" required>
+            </div>
+            <div class="form-group">
+                <label>Punt de sortida</label>
+                <input type="text" id="punt_sortida">
+            </div>
+            <div class="form-group">
+                <label>Província *</label>
+                <select id="provincia" required>
+                    <option value="">Trieu alguna cosa...</option>
+                    <option value="Barcelona">Barcelona</option>
+                    <option value="Girona">Girona</option>
+                    <option value="Lleida">Lleida</option>
+                    <option value="Tarragona">Tarragona</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Dificultat</label>
+                <select id="dificultat">
+                    <option value="Fàcil">Fàcil</option>
+                    <option value="Mitjana">Mitjana</option>
+                    <option value="Difícil">Difícil</option>
+                    <option value="Èpica">Èpica</option>
+                </select>
+            </div>
+            <button type="submit" id="submit-btn">Publicar Sortida</button>
+            <p id="form-msg" style="text-align:center; font-weight:bold;"></p>
+        </form>
+    </div>
+</div>
+
+<script>
+    // INICIALITZACIÓ DE SUPABASE AMB LES TEVES CREDENCIALS
+    const supabaseUrl = 'https://gltraqharnkpnrrhltxl.supabase.co';
+    const supabaseKey = 'sb_publishable_df7MFY-Vgoee03SdTH9jHQ_uaIFa_ac';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    let currentUser = null;
+
+    // Comprovar si ja estem loguejats en carregar la pàgina
+    window.onload = async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            currentUser = session.user;
+            showApp();
+        }
+    };
+
+    // FUNCIÓ LOGIN
+    async function login() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        const errorMsg = document.getElementById('login-error');
+        
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        
+        if (error) {
+            errorMsg.innerText = "Codi o usuari incorrecte.";
+            errorMsg.style.display = "block";
+        } else {
+            currentUser = data.user;
+            errorMsg.style.display = "none";
+            showApp();
+        }
+    }
+
+    // FUNCIÓ LOGOUT
+    async function logout() {
+        await supabase.auth.signOut();
+        currentUser = null;
+        document.getElementById('app-screen').classList.add('hidden');
+        document.getElementById('login-screen').classList.remove('hidden');
+        document.getElementById('login-email').value = '';
+        document.getElementById('login-password').value = '';
+    }
+
+    // FUNCIÓ CREAR SORTIDA
+    async function crearSortida(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submit-btn');
+        const formMsg = document.getElementById('form-msg');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Pujant...";
+
+        try {
+            let imatge_url = null;
+            const imatgeFile = document.getElementById('imatge').files[0];
+
+            // 1. Pujar imatge a Supabase Storage (si n'hi ha una)
+            if (imatgeFile) {
+                const fileExt = imatgeFile.name.split('.').pop();
+                const fileName = `${Math.random()}.${fileExt}`;
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                    .from('imatges')
+                    .upload(fileName, imatgeFile);
+
+                if (uploadError) throw uploadError;
+
+                const { data: publicUrlData } = supabase.storage
+                    .from('imatges')
+                    .getPublicUrl(fileName);
+                
+                imatge_url = publicUrlData.publicUrl;
+            }
+
+            // 2. Inserir dades a la base de dades
+            const novesDades = {
+                titol: document.getElementById('titol').value,
+                data: document.getElementById('data').value || null,
+                descripcio: document.getElementById('descripcio').value,
+                organitzador: document.getElementById('organitzador').value,
+                web_track: document.getElementById('web_track').value,
+                punt_sortida: document.getElementById('punt_sortida').value,
+                provincia: document.getElementById('provincia').value,
+                dificultat: document.getElementById('dificultat').value,
+                imatge_url: imatge_url,
+                user_id: currentUser.id
+            };
+
+            const { error } = await supabase.from('sortides').insert([novesDades]);
+            
+            if (error) throw error;
+
+            formMsg.style.color = "green";
+            formMsg.innerText = "Sortida creada correctament!";
+            document.getElementById('sortida-form').reset();
+
+        } catch (error) {
+            formMsg.style.color = "red";
+            formMsg.innerText = "Error al crear la sortida: " + error.message;
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Publicar Sortida";
+            setTimeout(() => formMsg.innerText = "", 5000);
+        }
+    }
+
+    // UTILS UI
+    function showApp() {
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('app-screen').classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>
