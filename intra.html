@@ -3,217 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gravel Catalunya - Intranet</title>
+    <title>Gravel Catalunya</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* CONFIGURACIÓ BASE - COLORS ACTUALITZATS A TURQUESA */
         :root {
-            --primary: #00bca5; /* El color turquesa de la teva imatge */
+            --primary: #00bca5;
             --primary-hover: #009986;
             --primary-light: #e0f6f4;
             --bg-color: #f8f9fa;
             --text-main: #2d3748;
-            --text-muted: #718096;
             --border-color: #e2e8f0;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-        }
-        
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; -webkit-font-smoothing: antialiased; }
         .hidden { display: none !important; }
-
-        /* BARRA SUPERIOR */
-        .topbar {
-            background-color: #316793; /* Blau de la barra superior de la segona captura */
-            color: white;
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+        .topbar { background-color: #316793; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
         .topbar-left { display: flex; align-items: center; gap: 12px; }
-        .topbar-icon {
-            background-color: white;
-            color: #316793;
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 800;
-            font-size: 24px;
-        }
+        .topbar-icon { background-color: white; color: #316793; width: 42px; height: 42px; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-weight: 800; font-size: 24px; }
         .topbar-titles h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.5px; }
         .topbar-titles p { font-size: 0.8rem; opacity: 0.9; }
-        
-        .btn-logout {
-            background: rgba(255,255,255,0.15);
-            border: none;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
+        .btn-logout { background: rgba(255,255,255,0.15); border: none; color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: background 0.2s; }
         .btn-logout:hover { background: rgba(255,255,255,0.25); }
-
-        /* PANTALLA DE LOGIN - CAIXA CAP AMUNT */
-        .login-wrapper {
-            display: flex;
-            justify-content: center;
-            /* Canviem l'alineació vertical cap a dalt amb una mica de marge */
-            align-items: flex-start;
-            padding-top: 80px; 
-            min-height: calc(100vh - 74px);
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-        .login-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            border: 1px solid rgba(0,0,0,0.04);
-        }
-        .lock-icon {
-            background-color: #e6f3fa; /* Blau molt claret per al fons del cadenat */
-            color: #316793;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 24px auto;
-        }
+        .login-wrapper { display: flex; justify-content: center; align-items: flex-start; padding-top: 80px; min-height: calc(100vh - 74px); padding-left: 20px; padding-right: 20px; }
+        .login-card { background: white; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); width: 100%; max-width: 420px; text-align: center; border: 1px solid rgba(0,0,0,0.04); }
+        .lock-icon { background-color: #e6f3fa; color: #316793; width: 64px; height: 64px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 24px auto; }
         .lock-icon svg { width: 28px; height: 28px; fill: currentColor; }
-        
-        .login-card h2 {
-            color: #316793; /* Blau fosc com a la captura */
-            font-size: 1.4rem;
-            margin-bottom: 24px;
-            font-weight: 700;
-        }
-        
-        .input-modern {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            background-color: #fff;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            text-align: center;
-            transition: all 0.2s;
-            outline: none;
-        }
-        .input-modern:focus {
-            border-color: #316793;
-            box-shadow: 0 0 0 4px #e6f3fa;
-        }
-        
-        .btn-primary {
-            width: 100%;
-            padding: 16px;
-            background-color: #316793; /* Color botó captura */
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-        }
+        .login-card h2 { color: #316793; font-size: 1.4rem; margin-bottom: 24px; font-weight: 700; }
+        .input-modern { width: 100%; padding: 16px; border: 2px solid var(--border-color); border-radius: 12px; background-color: #fff; font-size: 1rem; margin-bottom: 20px; text-align: center; transition: all 0.2s; outline: none; }
+        .input-modern:focus { border-color: #316793; box-shadow: 0 0 0 4px #e6f3fa; }
+        .btn-primary { width: 100%; padding: 16px; background-color: #316793; color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.2s, transform 0.1s; }
         .btn-primary:hover { background-color: #25527a; }
         .btn-primary:active { transform: scale(0.98); }
-        
         #login-error { color: #e53e3e; font-size: 0.9rem; margin-top: 16px; font-weight: 500; }
-
-        /* PANTALLA PRINCIPAL (FORMULARI SORTIDES) */
-        .app-container { 
-            max-width: 650px; 
-            margin: 40px auto; 
-            background: white; 
-            padding: 40px; 
-            border-radius: 16px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
-        }
-        @media (max-width: 768px) {
-            .app-container { margin: 20px; padding: 24px; }
-            .login-wrapper { padding-top: 40px; }
-            .login-card { padding: 32px 20px; }
-        }
-
-        .app-container h2 {
-            color: var(--primary);
-            margin-bottom: 24px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            border-bottom: 2px solid var(--primary-light);
-            padding-bottom: 12px;
-        }
-
+        .app-container { max-width: 800px; margin: 40px auto; display: flex; flex-direction: column; gap: 30px; padding: 0 20px; }
+        .card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .card h2 { color: var(--primary); margin-bottom: 24px; font-size: 1.5rem; font-weight: 700; border-bottom: 2px solid var(--primary-light); padding-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .form-group { margin-bottom: 20px; }
-        .form-group label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-weight: 600; 
-            font-size: 0.9rem; 
-            color: var(--text-main); 
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: border-color 0.2s;
-            background-color: #fafafa;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            background-color: #fff;
-        }
-        
-        .btn-submit {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--primary); /* Turquesa per publicar */
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-main); }
+        .form-control { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 1rem; font-family: inherit; transition: border-color 0.2s; background-color: #fafafa; }
+        .form-control:focus { outline: none; border-color: var(--primary); background-color: #fff; }
+        .btn-submit { width: 100%; padding: 16px; background-color: var(--primary); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; }
         .btn-submit:hover { background-color: var(--primary-hover); }
-
         textarea.form-control { resize: vertical; min-height: 100px; }
+        .sortida-item { border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 15px; background: #fff; display: flex; flex-direction: column; gap: 10px; }
+        .sortida-header { display: flex; justify-content: space-between; align-items: flex-start; }
+        .sortida-title { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+        .sortida-meta { font-size: 0.85rem; color: #718096; }
+        .sortida-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-edit { background-color: #f6ad55; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        .btn-delete { background-color: #fc8181; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        .btn-cancel { background-color: #a0aec0; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; }
+        .sortida-img { max-width: 100%; height: auto; border-radius: 8px; margin-top: 10px; max-height: 250px; object-fit: cover; }
+        @media (max-width: 768px) { .login-wrapper { padding-top: 40px; } .login-card { padding: 32px 20px; } .card { padding: 20px; } }
     </style>
 </head>
 <body>
-
-<!-- BARRA SUPERIOR (Sempre visible) -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="topbar-icon">#</div>
@@ -222,205 +66,82 @@
             <p>Intranet de sortides</p>
         </div>
     </div>
-    <button id="btn-logout-header" class="btn-logout hidden" onclick="logout()">Tancar Sessió</button>
+    <button id="btn-logout-header" class="btn-logout hidden" onclick="logout()">Tancar sessió</button>
 </div>
-
-<!-- PANTALLA DE LOGIN -->
 <div id="login-screen" class="login-wrapper">
     <div class="login-card">
         <div class="lock-icon">
-            <!-- Icona Cadenat -->
-            <svg viewBox="0 0 24 24">
-                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
         </div>
         <h2>Accés Gravel Catalunya</h2>
-        
-        <input type="password" id="login-password" class="input-modern" placeholder="Introdueix la contrasenya" required onkeypress="handleEnter(event)">
-        
+        <input type="password" id="login-password" class="input-modern" placeholder="Codi d'accés o correu gestor" required onkeypress="handleEnter(event)">
         <button onclick="login()" class="btn-primary" id="btn-login">Entrar</button>
-        <p id="login-error" class="hidden">Codi incorrecte.</p>
+        <p id="login-error" class="hidden">Credencials incorrectes.</p>
     </div>
 </div>
-
-<!-- PANTALLA PRINCIPAL (CREAR SORTIDA) -->
 <div id="app-screen" class="app-container hidden">
-    <h2>Crear Nova Sortida</h2>
-    
-    <form id="sortida-form" onsubmit="crearSortida(event)">
-        <div class="form-group">
-            <label>Títol *</label>
-            <input type="text" id="titol" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label>Data</label>
-            <input type="date" id="data" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>Descripció *</label>
-            <textarea id="descripcio" class="form-control" rows="4" required></textarea>
-        </div>
-        <div class="form-group">
-            <label>Imatge (Opcional)</label>
-            <input type="file" id="imatge" class="form-control" accept="image/*" style="padding: 10px;">
-        </div>
-        <div class="form-group">
-            <label>Organitzador/a *</label>
-            <input type="text" id="organitzador" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label>Web del track (Komoot, Wikiloc...) *</label>
-            <input type="url" id="web_track" class="form-control" placeholder="https://" required>
-        </div>
-        <div class="form-group">
-            <label>Punt de sortida</label>
-            <input type="text" id="punt_sortida" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>Província *</label>
-            <select id="provincia" class="form-control" required>
-                <option value="">Trieu alguna cosa...</option>
-                <option value="Barcelona">Barcelona</option>
-                <option value="Girona">Girona</option>
-                <option value="Lleida">Lleida</option>
-                <option value="Tarragona">Tarragona</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Dificultat</label>
-            <select id="dificultat" class="form-control">
-                <option value="Fàcil">Fàcil</option>
-                <option value="Mitjana" selected>Mitjana</option>
-                <option value="Difícil">Difícil</option>
-                <option value="Èpica">Èpica</option>
-            </select>
-        </div>
-        <button type="submit" id="submit-btn" class="btn-submit" style="margin-top: 10px;">Publicar Sortida</button>
-        <p id="form-msg" style="text-align:center; font-weight:600; margin-top: 15px;"></p>
-    </form>
+    <div class="card" id="form-card">
+        <h2 id="form-title">Nova sortida</h2>
+        <form id="sortida-form" onsubmit="guardarSortida(event)">
+            <input type="hidden" id="edit_id">
+            <div class="form-group">
+                <label>Títol *</label>
+                <input type="text" id="titol" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Data</label>
+                <input type="date" id="data" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Descripció *</label>
+                <textarea id="descripcio" class="form-control" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Nova imatge (opcional)</label>
+                <input type="file" id="imatge" class="form-control" accept="image/*" style="padding: 10px;">
+                <input type="hidden" id="imatge_actual">
+            </div>
+            <div class="form-group">
+                <label>Organitzador/a *</label>
+                <input type="text" id="organitzador" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Web del track *</label>
+                <input type="url" id="web_track" class="form-control" placeholder="https://" required>
+            </div>
+            <div class="form-group">
+                <label>Punt de sortida</label>
+                <input type="text" id="punt_sortida" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Província *</label>
+                <select id="provincia" class="form-control" required>
+                    <option value="">Trieu...</option>
+                    <option value="Barcelona">Barcelona</option>
+                    <option value="Girona">Girona</option>
+                    <option value="Lleida">Lleida</option>
+                    <option value="Tarragona">Tarragona</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Dificultat</label>
+                <select id="dificultat" class="form-control">
+                    <option value="Fàcil">Fàcil</option>
+                    <option value="Mitjana" selected>Mitjana</option>
+                    <option value="Difícil">Difícil</option>
+                    <option value="Èpica">Èpica</option>
+                </select>
+            </div>
+            <button type="submit" id="submit-btn" class="btn-submit">Publicar sortida</button>
+            <button type="button" id="cancel-btn" class="btn-cancel hidden" onclick="resetForm()">Cancel·lar edició</button>
+            <p id="form-msg" style="text-align:center; font-weight:600; margin-top: 15px;"></p>
+        </form>
+    </div>
+    <div class="card">
+        <h2>Tauler de sortides</h2>
+        <div id="llista-sortides"></div>
+    </div>
 </div>
-
-<script>
-    // CREDENCIALS SUPABASE
-    const supabaseUrl = 'https://gltraqharnkpnrrhltxl.supabase.co';
-    const supabaseKey = 'sb_publishable_df7MFY-Vgoee03SdTH9jHQ_uaIFa_ac';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-    let currentUser = null;
-
-    window.onload = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-            currentUser = session.user;
-            showApp();
-        }
-    };
-
-    function handleEnter(e) {
-        if(e.key === 'Enter') login();
-    }
-
-    async function login() {
-        const codi = document.getElementById('login-password').value.trim().toLowerCase();
-        const errorMsg = document.getElementById('login-error');
-        const btnLogin = document.getElementById('btn-login');
-        
-        if(!codi) return;
-
-        btnLogin.innerText = "Carregant...";
-        btnLogin.disabled = true;
-
-        const emailConstruit = codi + '@gravel.cat';
-
-        const { data, error } = await supabase.auth.signInWithPassword({ 
-            email: emailConstruit, 
-            password: codi 
-        });
-        
-        btnLogin.innerText = "Entrar";
-        btnLogin.disabled = false;
-
-        if (error) {
-            errorMsg.classList.remove('hidden');
-        } else {
-            currentUser = data.user;
-            errorMsg.classList.add('hidden');
-            showApp();
-        }
-    }
-
-    async function logout() {
-        await supabase.auth.signOut();
-        currentUser = null;
-        document.getElementById('app-screen').classList.add('hidden');
-        document.getElementById('btn-logout-header').classList.add('hidden');
-        document.getElementById('login-screen').classList.remove('hidden');
-        document.getElementById('login-password').value = '';
-    }
-
-    async function crearSortida(e) {
-        e.preventDefault();
-        const submitBtn = document.getElementById('submit-btn');
-        const formMsg = document.getElementById('form-msg');
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Pujant dades...";
-
-        try {
-            let imatge_url = null;
-            const imatgeFile = document.getElementById('imatge').files[0];
-
-            if (imatgeFile) {
-                const fileExt = imatgeFile.name.split('.').pop();
-                const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-                
-                const { data: uploadData, error: uploadError } = await supabase.storage
-                    .from('imatges')
-                    .upload(fileName, imatgeFile);
-
-                if (uploadError) throw uploadError;
-
-                const { data: publicUrlData } = supabase.storage
-                    .from('imatges')
-                    .getPublicUrl(fileName);
-                
-                imatge_url = publicUrlData.publicUrl;
-            }
-
-            const novesDades = {
-                titol: document.getElementById('titol').value,
-                data: document.getElementById('data').value || null,
-                descripcio: document.getElementById('descripcio').value,
-                organitzador: document.getElementById('organitzador').value,
-                web_track: document.getElementById('web_track').value,
-                punt_sortida: document.getElementById('punt_sortida').value,
-                provincia: document.getElementById('provincia').value,
-                dificultat: document.getElementById('dificultat').value,
-                imatge_url: imatge_url,
-                user_id: currentUser.id
-            };
-
-            const { error } = await supabase.from('sortides').insert([novesDades]);
-            if (error) throw error;
-
-            formMsg.style.color = "#00bca5"; 
-            formMsg.innerText = "Sortida publicada correctament!";
-            document.getElementById('sortida-form').reset();
-
-        } catch (error) {
-            formMsg.style.color = "#e53e3e"; 
-            formMsg.innerText = "Error: " + error.message;
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Publicar Sortida";
-            setTimeout(() => formMsg.innerText = "", 5000);
-        }
-    }
-
-    function showApp() {
-        document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('app-screen').classList.remove('hidden');
-        document.getElementById('btn-logout-header').classList.remove('hidden');
-    }
-</script>
-
+<script src="sortides.js"></script>
 </body>
 </html>
