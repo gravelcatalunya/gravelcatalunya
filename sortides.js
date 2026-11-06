@@ -25,30 +25,36 @@ async function login() {
     btnLogin.innerText = "Carregant...";
     btnLogin.disabled = true;
 
-    let res = await supabase.auth.signInWithPassword({
+    // Intent 1: Prova de login com a gestor
+    let res1 = await supabase.auth.signInWithPassword({
         email: 'hola@gravelcatalunya.com',
         password: inputVal
     });
 
-    if (!res.error && res.data.user) {
-        currentUser = res.data.user;
+    if (!res1.error && res1.data.user) {
+        currentUser = res1.data.user;
+        errorMsg.classList.add('hidden');
+        showApp();
+        btnLogin.innerText = "Entrar";
+        btnLogin.disabled = false;
+        return;
+    }
+
+    // Intent 2: Prova de login com a usuari normal (ex: ramon123)
+    const dynamicEmail = inputVal.toLowerCase() + '@gravelcatalunya.com';
+    let res2 = await supabase.auth.signInWithPassword({
+        email: dynamicEmail,
+        password: inputVal
+    });
+
+    if (!res2.error && res2.data.user) {
+        currentUser = res2.data.user;
         errorMsg.classList.add('hidden');
         showApp();
     } else {
-        const dynamicEmail = inputVal.toLowerCase() + '@gravelcatalunya.com';
-        let res2 = await supabase.auth.signInWithPassword({
-            email: dynamicEmail,
-            password: inputVal
-        });
-
-        if (!res2.error && res2.data.user) {
-            currentUser = res2.data.user;
-            errorMsg.classList.add('hidden');
-            showApp();
-        } else {
-            errorMsg.innerText = "Codi incorrecte o usuari no trobat.";
-            errorMsg.classList.remove('hidden');
-        }
+        // SI ARRIBA AQUÍ: MOSTRA L'ERROR EXACTE DE SUPABASE!
+        errorMsg.innerText = "Error: " + (res2.error?.message || "Credencials incorrectes");
+        errorMsg.classList.remove('hidden');
     }
     
     btnLogin.innerText = "Entrar";
