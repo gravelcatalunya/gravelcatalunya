@@ -76,7 +76,7 @@
         <h2>Accés Gravel Catalunya</h2>
         <input type="password" id="login-password" class="input-modern" placeholder="Codi d'accés" required onkeypress="handleEnter(event)">
         <button onclick="login()" class="btn-primary" id="btn-login">Entrar</button>
-        <p id="login-error" class="hidden">Codi incorrecte o usuari no trobat.</p>
+        <p id="login-error" class="hidden">Codi incorrecte.</p>
     </div>
 </div>
 <div id="app-screen" class="app-container hidden">
@@ -142,6 +142,7 @@
         <div id="llista-sortides"></div>
     </div>
 </div>
-<script src="sortides.js"></script>
+<!-- Atenció aquí: Forcem a carregar la nova versió per saltar-nos la memòria cau de GitHub -->
+<script src="sortides.js?v=2"></script>
 </body>
 </html>
