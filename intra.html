@@ -6,22 +6,18 @@
     <title>Gravel Catalunya - Intranet</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* CONFIGURACIÓ BASE */
+        /* CONFIGURACIÓ BASE - COLORS ACTUALITZATS A TURQUESA */
         :root {
-            --magenta: #e91e63;
-            --magenta-hover: #c2185b;
-            --magenta-light: #fce4ec;
+            --primary: #00bca5; /* El color turquesa de la teva imatge */
+            --primary-hover: #009986;
+            --primary-light: #e0f6f4;
             --bg-color: #f8f9fa;
             --text-main: #2d3748;
             --text-muted: #718096;
             --border-color: #e2e8f0;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
@@ -35,25 +31,21 @@
 
         /* BARRA SUPERIOR */
         .topbar {
-            background-color: var(--magenta);
+            background-color: #316793; /* Blau de la barra superior de la segona captura */
             color: white;
             padding: 16px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(233, 30, 99, 0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
         .topbar-icon {
             background-color: white;
-            color: var(--magenta);
+            color: #316793;
             width: 42px;
             height: 42px;
             border-radius: 10px;
@@ -79,13 +71,16 @@
         }
         .btn-logout:hover { background: rgba(255,255,255,0.25); }
 
-        /* PANTALLA DE LOGIN (MODERNA I RESPONSIVE) */
+        /* PANTALLA DE LOGIN - CAIXA CAP AMUNT */
         .login-wrapper {
             display: flex;
             justify-content: center;
-            align-items: center;
+            /* Canviem l'alineació vertical cap a dalt amb una mica de marge */
+            align-items: flex-start;
+            padding-top: 80px; 
             min-height: calc(100vh - 74px);
-            padding: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
         .login-card {
             background: white;
@@ -93,13 +88,13 @@
             border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
             border: 1px solid rgba(0,0,0,0.04);
         }
         .lock-icon {
-            background-color: var(--magenta-light);
-            color: var(--magenta);
+            background-color: #e6f3fa; /* Blau molt claret per al fons del cadenat */
+            color: #316793;
             width: 64px;
             height: 64px;
             border-radius: 50%;
@@ -111,8 +106,8 @@
         .lock-icon svg { width: 28px; height: 28px; fill: currentColor; }
         
         .login-card h2 {
-            color: var(--text-main);
-            font-size: 1.3rem;
+            color: #316793; /* Blau fosc com a la captura */
+            font-size: 1.4rem;
             margin-bottom: 24px;
             font-weight: 700;
         }
@@ -130,14 +125,14 @@
             outline: none;
         }
         .input-modern:focus {
-            border-color: var(--magenta);
-            box-shadow: 0 0 0 4px var(--magenta-light);
+            border-color: #316793;
+            box-shadow: 0 0 0 4px #e6f3fa;
         }
         
         .btn-primary {
             width: 100%;
             padding: 16px;
-            background-color: var(--magenta);
+            background-color: #316793; /* Color botó captura */
             color: white;
             border: none;
             border-radius: 12px;
@@ -146,7 +141,7 @@
             cursor: pointer;
             transition: background-color 0.2s, transform 0.1s;
         }
-        .btn-primary:hover { background-color: var(--magenta-hover); }
+        .btn-primary:hover { background-color: #25527a; }
         .btn-primary:active { transform: scale(0.98); }
         
         #login-error { color: #e53e3e; font-size: 0.9rem; margin-top: 16px; font-weight: 500; }
@@ -162,15 +157,16 @@
         }
         @media (max-width: 768px) {
             .app-container { margin: 20px; padding: 24px; }
+            .login-wrapper { padding-top: 40px; }
             .login-card { padding: 32px 20px; }
         }
 
         .app-container h2 {
-            color: var(--magenta);
+            color: var(--primary);
             margin-bottom: 24px;
             font-size: 1.5rem;
             font-weight: 700;
-            border-bottom: 2px solid var(--magenta-light);
+            border-bottom: 2px solid var(--primary-light);
             padding-bottom: 12px;
         }
 
@@ -195,10 +191,23 @@
         }
         .form-control:focus {
             outline: none;
-            border-color: var(--magenta);
+            border-color: var(--primary);
             background-color: #fff;
         }
         
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary); /* Turquesa per publicar */
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-submit:hover { background-color: var(--primary-hover); }
+
         textarea.form-control { resize: vertical; min-height: 100px; }
     </style>
 </head>
@@ -227,11 +236,10 @@
         </div>
         <h2>Accés Gravel Catalunya</h2>
         
-        <!-- Només UN camp per al codi d'usuari -->
-        <input type="password" id="login-password" class="input-modern" placeholder="Introdueix el teu codi" required onkeypress="handleEnter(event)">
+        <input type="password" id="login-password" class="input-modern" placeholder="Introdueix la contrasenya" required onkeypress="handleEnter(event)">
         
         <button onclick="login()" class="btn-primary" id="btn-login">Entrar</button>
-        <p id="login-error" class="hidden">Codi incorrecte o usuari no trobat.</p>
+        <p id="login-error" class="hidden">Codi incorrecte.</p>
     </div>
 </div>
 
@@ -287,7 +295,7 @@
                 <option value="Èpica">Èpica</option>
             </select>
         </div>
-        <button type="submit" id="submit-btn" class="btn-primary" style="margin-top: 10px;">Publicar Sortida</button>
+        <button type="submit" id="submit-btn" class="btn-submit" style="margin-top: 10px;">Publicar Sortida</button>
         <p id="form-msg" style="text-align:center; font-weight:600; margin-top: 15px;"></p>
     </form>
 </div>
@@ -299,7 +307,6 @@
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
     let currentUser = null;
 
-    // Comprovar sessió a l'inici
     window.onload = async () => {
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
@@ -308,12 +315,10 @@
         }
     };
 
-    // Suport per prémer Enter al teclat
     function handleEnter(e) {
         if(e.key === 'Enter') login();
     }
 
-    // LOGIN: UN SOL CAMP (CODI -> CORREU)
     async function login() {
         const codi = document.getElementById('login-password').value.trim().toLowerCase();
         const errorMsg = document.getElementById('login-error');
@@ -324,8 +329,6 @@
         btnLogin.innerText = "Carregant...";
         btnLogin.disabled = true;
 
-        // Màgia: Transformem el codi únic en un format correu que Supabase entengui
-        // Si l'usuari escriu "marc123", a Supabase s'envia correu: marc123@gravel.cat / pass: marc123
         const emailConstruit = codi + '@gravel.cat';
 
         const { data, error } = await supabase.auth.signInWithPassword({ 
@@ -345,7 +348,6 @@
         }
     }
 
-    // TANCAR SESSIÓ
     async function logout() {
         await supabase.auth.signOut();
         currentUser = null;
@@ -355,7 +357,6 @@
         document.getElementById('login-password').value = '';
     }
 
-    // CREAR NOVA SORTIDA A SUPABASE
     async function crearSortida(e) {
         e.preventDefault();
         const submitBtn = document.getElementById('submit-btn');
@@ -400,12 +401,12 @@
             const { error } = await supabase.from('sortides').insert([novesDades]);
             if (error) throw error;
 
-            formMsg.style.color = "#38a169"; // Verd èxit
+            formMsg.style.color = "#00bca5"; 
             formMsg.innerText = "Sortida publicada correctament!";
             document.getElementById('sortida-form').reset();
 
         } catch (error) {
-            formMsg.style.color = "#e53e3e"; // Vermell error
+            formMsg.style.color = "#e53e3e"; 
             formMsg.innerText = "Error: " + error.message;
         } finally {
             submitBtn.disabled = false;
@@ -414,7 +415,6 @@
         }
     }
 
-    // MOSTRAR INTERFÍCIE PRINCIPAL
     function showApp() {
         document.getElementById('login-screen').classList.add('hidden');
         document.getElementById('app-screen').classList.remove('hidden');
