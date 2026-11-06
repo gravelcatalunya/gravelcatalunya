@@ -16,18 +16,47 @@ function handleEnter(e) {
 }
 
 async function login() {
-    const input = document.getElementById('login-password').value.trim().toLowerCase();
+    const mainInput = document.getElementById('login-input');
+    const inputVal = mainInput.value.trim().toLowerCase();
+    const adminPassField = document.getElementById('login-password-admin');
+    const adminPassVal = adminPassField.value.trim();
     const errorMsg = document.getElementById('login-error');
     const btnLogin = document.getElementById('btn-login');
-    if(!input) return;
+
+    if(!inputVal) return;
+
+    const isGestor = (inputVal === 'hola@gravelcatalunya.com');
+
+    if (isGestor && adminPassField.classList.contains('hidden')) {
+        adminPassField.classList.remove('hidden');
+        adminPassField.focus();
+        mainInput.disabled = true;
+        errorMsg.classList.add('hidden');
+        return;
+    }
+
     btnLogin.innerText = "Carregant...";
     btnLogin.disabled = true;
-    const emailToUse = input.includes('@') ? input : input + '@gravel.cat';
-    const { data, error } = await supabase.auth.signInWithPassword({ email: emailToUse, password: input });
+    
+    let emailToUse, passwordToUse;
+
+    if (isGestor) {
+        emailToUse = inputVal;
+        passwordToUse = adminPassVal;
+    } else {
+        emailToUse = inputVal + '@gravelcatalunya.com';
+        passwordToUse = inputVal;
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email: emailToUse, password: passwordToUse });
+    
     btnLogin.innerText = "Entrar";
     btnLogin.disabled = false;
+
     if (error) {
+        errorMsg.innerText = isGestor ? "Contrasenya de seguretat incorrecta." : "Codi incorrecte.";
         errorMsg.classList.remove('hidden');
+        if (isGestor) adminPassField.value = '';
     } else {
         currentUser = data.user;
         errorMsg.classList.add('hidden');
@@ -41,7 +70,10 @@ async function logout() {
     document.getElementById('app-screen').classList.add('hidden');
     document.getElementById('btn-logout-header').classList.add('hidden');
     document.getElementById('login-screen').classList.remove('hidden');
-    document.getElementById('login-password').value = '';
+    document.getElementById('login-input').value = '';
+    document.getElementById('login-input').disabled = false;
+    document.getElementById('login-password-admin').value = '';
+    document.getElementById('login-password-admin').classList.add('hidden');
     document.getElementById('llista-sortides').innerHTML = '';
 }
 
