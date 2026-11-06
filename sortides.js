@@ -16,52 +16,43 @@ function handleEnter(e) {
 }
 
 async function login() {
-    const mainInput = document.getElementById('login-input');
-    const inputVal = mainInput.value.trim().toLowerCase();
-    const adminPassField = document.getElementById('login-password-admin');
-    const adminPassVal = adminPassField.value.trim();
+    const inputVal = document.getElementById('login-password').value.trim();
     const errorMsg = document.getElementById('login-error');
     const btnLogin = document.getElementById('btn-login');
 
     if(!inputVal) return;
 
-    const isGestor = (inputVal === 'hola@gravelcatalunya.com');
-
-    if (isGestor && adminPassField.classList.contains('hidden')) {
-        adminPassField.classList.remove('hidden');
-        adminPassField.focus();
-        mainInput.disabled = true;
-        errorMsg.classList.add('hidden');
-        return;
-    }
-
     btnLogin.innerText = "Carregant...";
     btnLogin.disabled = true;
-    
-    let emailToUse, passwordToUse;
 
-    if (isGestor) {
-        emailToUse = inputVal;
-        passwordToUse = adminPassVal;
+    let res = await supabase.auth.signInWithPassword({
+        email: 'hola@gravelcatalunya.com',
+        password: inputVal
+    });
+
+    if (!res.error && res.data.user) {
+        currentUser = res.data.user;
+        errorMsg.classList.add('hidden');
+        showApp();
     } else {
-        emailToUse = inputVal + '@gravelcatalunya.com';
-        passwordToUse = inputVal;
-    }
+        const dynamicEmail = inputVal.toLowerCase() + '@gravelcatalunya.com';
+        let res2 = await supabase.auth.signInWithPassword({
+            email: dynamicEmail,
+            password: inputVal
+        });
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email: emailToUse, password: passwordToUse });
+        if (!res2.error && res2.data.user) {
+            currentUser = res2.data.user;
+            errorMsg.classList.add('hidden');
+            showApp();
+        } else {
+            errorMsg.innerText = "Codi incorrecte o usuari no trobat.";
+            errorMsg.classList.remove('hidden');
+        }
+    }
     
     btnLogin.innerText = "Entrar";
     btnLogin.disabled = false;
-
-    if (error) {
-        errorMsg.innerText = isGestor ? "Contrasenya de seguretat incorrecta." : "Codi incorrecte.";
-        errorMsg.classList.remove('hidden');
-        if (isGestor) adminPassField.value = '';
-    } else {
-        currentUser = data.user;
-        errorMsg.classList.add('hidden');
-        showApp();
-    }
 }
 
 async function logout() {
@@ -70,10 +61,7 @@ async function logout() {
     document.getElementById('app-screen').classList.add('hidden');
     document.getElementById('btn-logout-header').classList.add('hidden');
     document.getElementById('login-screen').classList.remove('hidden');
-    document.getElementById('login-input').value = '';
-    document.getElementById('login-input').disabled = false;
-    document.getElementById('login-password-admin').value = '';
-    document.getElementById('login-password-admin').classList.add('hidden');
+    document.getElementById('login-password').value = '';
     document.getElementById('llista-sortides').innerHTML = '';
 }
 
